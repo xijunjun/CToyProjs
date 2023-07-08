@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33530.505
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_ultraface", "test_ultraface\test_ultraface.vcxproj", "{AA44648E-10F8-4ABE-B6EB-A29881B9C006}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libalgo_ultraface", "..\..\..\makefiles\vs2022\libalgo_ultraface\libalgo_ultraface.vcxproj", "{1A112790-7603-4C73-B8B7-2CAB9AD732F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA44648E-10F8-4ABE-B6EB-A29881B9C006}.Debug|x64.ActiveCfg = Debug|x64
+		{AA44648E-10F8-4ABE-B6EB-A29881B9C006}.Debug|x64.Build.0 = Debug|x64
+		{AA44648E-10F8-4ABE-B6EB-A29881B9C006}.Debug|x86.ActiveCfg = Debug|Win32
+		{AA44648E-10F8-4ABE-B6EB-A29881B9C006}.Debug|x86.Build.0 = Debug|Win32
+		{AA44648E-10F8-4ABE-B6EB-A29881B9C006}.Release|x64.ActiveCfg = Release|x64
+		{AA44648E-10F8-4ABE-B6EB-A29881B9C006}.Release|x64.Build.0 = Release|x64
+		{AA44648E-10F8-4ABE-B6EB-A29881B9C006}.Release|x86.ActiveCfg = Release|Win32
+		{AA44648E-10F8-4ABE-B6EB-A29881B9C006}.Release|x86.Build.0 = Release|Win32
+		{1A112790-7603-4C73-B8B7-2CAB9AD732F0}.Debug|x64.ActiveCfg = Debug|x64
+		{1A112790-7603-4C73-B8B7-2CAB9AD732F0}.Debug|x64.Build.0 = Debug|x64
+		{1A112790-7603-4C73-B8B7-2CAB9AD732F0}.Debug|x86.ActiveCfg = Debug|Win32
+		{1A112790-7603-4C73-B8B7-2CAB9AD732F0}.Debug|x86.Build.0 = Debug|Win32
+		{1A112790-7603-4C73-B8B7-2CAB9AD732F0}.Release|x64.ActiveCfg = Release|x64
+		{1A112790-7603-4C73-B8B7-2CAB9AD732F0}.Release|x64.Build.0 = Release|x64
+		{1A112790-7603-4C73-B8B7-2CAB9AD732F0}.Release|x86.ActiveCfg = Release|Win32
+		{1A112790-7603-4C73-B8B7-2CAB9AD732F0}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D790C2CE-C8F1-4CFD-81F6-C19EA622E749}
+	EndGlobalSection
+EndGlobal

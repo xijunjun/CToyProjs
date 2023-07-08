@@ -1,0 +1,4 @@
+bin/
+*.vs
+*opendb
+/ultraface/testbed/vs2022/test_ultraface/.vs
