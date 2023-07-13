@@ -3,8 +3,8 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <IncludePath>D:\workspace\AlgoTemp\open-download\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\workspace\AlgoTemp\open-download\opencv\build\x64\vc16\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>../../../../source/3rdlibs/libopencv/include;$(IncludePath)</IncludePath>
+    <LibraryPath>.././../../../source/3rdlibs/libopencv/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
