@@ -15,13 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\source\src\test_ultraface.cpp">
+    <ClCompile Include="basic_cv.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="custom_math.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="custom_cv.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\source\src\tinydir.h">
-      <Filter>源文件</Filter>
+    <ClInclude Include="custom_math.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="custom_cv.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

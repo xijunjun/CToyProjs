@@ -4,9 +4,32 @@
 #include "libalgo_ultraface.h"
 #include<string>
 #include <opencv2/opencv.hpp>
+#include "tinydir.h"
 
 using namespace std;
 int main() {
+
+	tinydir_dir dir;
+	int i;
+	tinydir_open_sorted(&dir, "D:\\workspace\\data\\pics\\imgs\\");
+
+	for (i = 0; i < dir.n_files; i++)
+	{
+		tinydir_file file;
+		tinydir_readfile_n(&dir, &file, i);
+
+		printf("%s", file.name);
+		if (file.is_dir)
+		{
+			printf("/");
+		}
+		printf("\n");
+	}
+
+	tinydir_close(&dir);
+
+
+
 
 	//cv::Mat image = ultraface_process();
 	ParamUltraFace ParamUltraFace;
