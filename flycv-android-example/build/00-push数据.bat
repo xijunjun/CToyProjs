@@ -1,0 +1,1 @@
+adb push user.jpg /data/local/tmp/

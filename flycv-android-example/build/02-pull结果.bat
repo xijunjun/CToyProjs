@@ -1,0 +1,1 @@
+adb pull /data/local/tmp/resize.jpg .

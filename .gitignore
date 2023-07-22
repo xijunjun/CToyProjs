@@ -1,0 +1,6 @@
+bin/
+*.vs
+*opendb
+/ultraface/testbed/vs2022/test_ultraface/.vs
+
+# bin/  代表所有bin文件夹  /bin代表某个bin文件夹
