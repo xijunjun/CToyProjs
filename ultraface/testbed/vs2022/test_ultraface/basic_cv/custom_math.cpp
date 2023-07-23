@@ -153,3 +153,99 @@ bool customMathGetAlignParam5pts(float pts_src_[10], float pts_dst_[10], double*
 
 	return true;
 }
+
+bool getFullAffParamCustom(float* pts_src, float* pts_dst, double* alignparam, double* alignparam_inv)
+{
+	double A[3][3] = {
+		{pts_src[0],pts_src[1],1},
+		{pts_src[2],pts_src[3],1},
+		{pts_src[4],pts_src[5],1}
+	};
+	double A_inv[3][3] = { 0 };
+	double B[3][2]{
+		{pts_dst[0],pts_dst[1]},
+		{pts_dst[2],pts_dst[3]},
+		{pts_dst[4],pts_dst[5]},
+	};
+	inverseMatrix3x3(A, A_inv);
+
+	double result[3][2] = {0};
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 2; ++j) {
+			result[i][j] = 0.0;
+			for (int k = 0; k < 3; ++k) {
+				result[i][j] += A_inv[i][k] * B[k][j];
+			}
+		}
+	}
+
+	double param_src[3][3] = { {result[0][0], result[1][0], result[2][0]}, {result[0][1], result[1][1], result[2][1]}, {0,0,1}};
+	double param_inv[3][3] = { 0 };
+	inverseMatrix3x3(param_src, param_inv);
+
+	double affineArray[6] = { result[0][0], result[1][0], result[2][0],result[0][1], result[1][1], result[2][1] };
+	double affineArrayInv[6] = { param_inv[0][0],param_inv[0][1],param_inv[0][2] ,param_inv[1][0] ,param_inv[1][1] ,param_inv[1][2] };
+
+	memcpy(alignparam, affineArray, 6 * sizeof(double));
+	memcpy(alignparam_inv, affineArrayInv, 6 * sizeof(double));
+
+	return true;
+}
+
+
+
+/////////////完整的仿射变换，尚未验证
+//#include <iostream>
+//#include <vector>
+//
+//struct Point {
+//	double x;
+//	double y;
+//};
+//
+//// 求解仿射参数
+//bool solveAffineParameters(const std::vector<Point>& srcPoints,
+//	const std::vector<Point>& dstPoints,
+//	double alignparam[6]) {
+//	int n = srcPoints.size();
+//
+//	if (n < 3 || dstPoints.size() != n) {
+//		std::cerr << "Error: Invalid number of points or mismatch between srcPoints and dstPoints." << std::endl;
+//		return false;
+//	}
+//
+//	double sum_x_src = 0.0, sum_y_src = 0.0, sum_x_dst = 0.0, sum_y_dst = 0.0;
+//	double sum_x_src_dst = 0.0, sum_y_src_dst = 0.0;
+//	double sum_x_src_sq = 0.0, sum_y_src_sq = 0.0;
+//
+//	for (int i = 0; i < n; i++) {
+//		sum_x_src += srcPoints[i].x;
+//		sum_y_src += srcPoints[i].y;
+//		sum_x_dst += dstPoints[i].x;
+//		sum_y_dst += dstPoints[i].y;
+//		sum_x_src_dst += srcPoints[i].x * dstPoints[i].x;
+//		sum_y_src_dst += srcPoints[i].y * dstPoints[i].y;
+//		sum_x_src_sq += srcPoints[i].x * srcPoints[i].x;
+//		sum_y_src_sq += srcPoints[i].y * srcPoints[i].y;
+//	}
+//
+//	double denominator = n * sum_x_src_sq - sum_x_src * sum_x_src;
+//
+//	if (denominator == 0.0) {
+//		std::cerr << "Error: Singular matrix, cannot compute affine parameters." << std::endl;
+//		return false;
+//	}
+//
+//	alignparam[0] = (n * sum_x_src_dst - sum_x_src * sum_x_dst) / denominator;
+//	alignparam[1] = (sum_x_src_sq * sum_x_dst - sum_x_src * sum_x_src_dst) / denominator;
+//
+//	alignparam[2] = (n * sum_y_src_dst - sum_y_src * sum_y_dst) / denominator;
+//	alignparam[3] = (sum_y_src_sq * sum_y_dst - sum_y_src * sum_y_src_dst) / denominator;
+//
+//	alignparam[4] = (sum_x_dst - alignparam[0] * sum_x_src - alignparam[1] * sum_y_src) / n;
+//	alignparam[5] = (sum_y_dst - alignparam[2] * sum_x_src - alignparam[3] * sum_y_src) / n;
+//
+//	return true;
+//}
+
+

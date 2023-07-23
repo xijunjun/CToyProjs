@@ -56,6 +56,8 @@ int main() {
 		cv::Point pt1(face.x1, face.y1);
 		cv::Point pt2(face.x2, face.y2);
 		cv::rectangle(image, pt1, pt2, cv::Scalar(0, 255, 0), 2);
+
+
 	}
 
 	auto end = chrono::steady_clock::now();

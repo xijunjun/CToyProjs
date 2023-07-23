@@ -71,8 +71,60 @@ void get_affparam_opencv(float* pts_src, float* pts_dst)
 
 
 
+void getSimAffParamOpencv(float* pts_src, float* pts_dst, double* alignparam, double* alignparam_inv)
+{
+	// 5个源点和目标点的坐标
+	float x1 = pts_src[0], y1 = pts_src[1], u1 = pts_dst[0], v1 = pts_dst[1];
+	float x2 = pts_src[2], y2 = pts_src[3], u2 = pts_dst[2], v2 = pts_dst[3];
+	float x3 = pts_src[4], y3 = pts_src[5], u3 = pts_dst[4], v3 = pts_dst[5];
+	float x4 = pts_src[6], y4 = pts_src[7], u4 = pts_dst[6], v4 = pts_dst[7];
+	float x5 = pts_src[8], y5 = pts_src[9], u5 = pts_dst[8], v5 = pts_dst[9];
+	// 两个点集的对应关系
+	std::vector<cv::Point2f> src_points = { cv::Point2f(x1, y1),cv::Point2f(x2, y2),cv::Point2f(x3, y3),cv::Point2f(x4, y4),cv::Point2f(x5, y5) };
+	std::vector<cv::Point2f> dst_points = { cv::Point2f(u1, v1),cv::Point2f(u2, v2),cv::Point2f(u3, v3),cv::Point2f(u4, v4),cv::Point2f(u5, v5) };
 
-int main()
+	cout << "src_points:" << src_points << endl;
+	cout << "dst_points:" << dst_points << endl;
+
+	// 估计仿射变换参数矩阵
+	cv::Mat affine_matrix = cv::estimateAffinePartial2D(src_points, dst_points, cv::noArray(), cv::LMEDS);
+	cv::Mat affine_matrix_inv = affine_matrix.clone();
+	cv::invertAffineTransform(affine_matrix, affine_matrix_inv);
+	memcpy(alignparam, affine_matrix.ptr<double>(0), 6 * sizeof(double));
+	memcpy(alignparam_inv, affine_matrix_inv.ptr<double>(0), 6 * sizeof(double));
+}
+
+
+void getFullAffParamOpencv(float* pts_src, float* pts_dst, double* alignparam, double* alignparam_inv)
+{
+	// 5个源点和目标点的坐标
+	float x1 = pts_src[0], y1 = pts_src[1], u1 = pts_dst[0], v1 = pts_dst[1];
+	float x2 = pts_src[2], y2 = pts_src[3], u2 = pts_dst[2], v2 = pts_dst[3];
+	float x3 = pts_src[4], y3 = pts_src[5], u3 = pts_dst[4], v3 = pts_dst[5];
+
+	cv::Point2f src[3];
+	src[0] = cv::Point2f(x1, y1);
+	src[1] = cv::Point2f(x2, y2);
+	src[2] = cv::Point2f(x3, y3);
+
+	cv::Point2f dst[3];
+	dst[0] = cv::Point2f(u1, v1);
+	dst[1] = cv::Point2f(u2, v2);
+	dst[2] = cv::Point2f(u3, v3);
+
+
+	// 估计仿射变换参数矩阵
+	cv::Mat affine_matrix = cv::getAffineTransform(src, dst);
+	cv::Mat affine_matrix_inv = affine_matrix.clone();
+	cv::invertAffineTransform(affine_matrix, affine_matrix_inv);
+	memcpy(alignparam, affine_matrix.ptr<double>(0), 6 * sizeof(double));
+	memcpy(alignparam_inv, affine_matrix_inv.ptr<double>(0), 6 * sizeof(double));
+}
+
+
+
+
+void test_simatt()
 {
 	string imgpath = "D:\\workspace\\data\\pics\\temp\\facetemp.jpg";
 	cv::Mat imgface = cv::imread(imgpath);
@@ -96,9 +148,10 @@ int main()
 	float result[4];
 	//double result[4];
 
-	double alignparam[6],  alignparam_inv[6];
+	double alignparam[6], alignparam_inv[6];
 
-	customMathGetAlignParam5pts(pts_src, pts_dst,  alignparam,alignparam_inv);
+	//customMathGetAlignParam5pts(pts_src, pts_dst,  alignparam,alignparam_inv);
+	getSimAffParamOpencv(pts_src, pts_dst, alignparam, alignparam_inv);
 
 	//customMathGetAlignParam5pts( pts_dst, pts_src,result);
 
@@ -111,7 +164,7 @@ int main()
 
 	// 进行仿射变换
 	cv::Mat outputImage;
-	cv::warpAffine(imgface,  outputImage, affineMatrix, cv::Size(512, 512));
+	cv::warpAffine(imgface, outputImage, affineMatrix, cv::Size(512, 512));
 
 	CustomImage face_origin, face_algned;
 	face_origin.width = imgface.cols;
@@ -123,8 +176,8 @@ int main()
 	face_algned.width = 512;
 	face_algned.height = 512;
 	face_algned.channels = 3;
-	face_algned.bytesPerRow = 512*3;
-	face_algned.data = (uchar*)malloc(512*512*3);
+	face_algned.bytesPerRow = 512 * 3;
+	face_algned.data = (uchar*)malloc(512 * 512 * 3);
 
 	CustomWarpBGR(&face_origin, &face_algned, alignparam_inv);
 
@@ -138,16 +191,68 @@ int main()
 	cv::imshow("imgvis", limit_window_auto(imgvis));
 	cv::imshow("imgface", limit_window_auto(imgface));
 	cv::imshow("outputImage", limit_window_auto(outputImage));
-	cv::imshow("face_algned_cv",limit_window_auto(face_algned_cv));
+	cv::imshow("face_algned_cv", limit_window_auto(face_algned_cv));
 
 	//cv::imwrite("outputImage.jpg", limit_window_auto(outputImage));
 	//cv::imwrite("face_algned_cv.jpg", limit_window_auto(face_algned_cv));
 
 
 	cv::waitKey(0);
+}
+
+//void print_param(float alignparam[6])
+//{
+//	cv::Mat affineMatrix = cv::Mat(2, 3, CV_64F, alignparam);
+//}
+
+void test_fullatt()
+{
+	string imgpath = "D:\\workspace\\data\\pics\\temp\\facetemp.jpg";
+	cv::Mat imgface = cv::imread(imgpath);
+	cv::Scalar color(0, 0, 255);
+
+	float faceland5[10] = { 290,362,433,363,363,453,300,515,414,517 };
+
+	float dstpts[6] = { 0,0,200,0,0,200 };
+
+	for (int i = 0; i < 3; i++)
+	{
+		cv::circle(imgface, cv::Point(int(faceland5[i * 2]), int(faceland5[i * 2 + 1])), 8, color, -1);
+	}
+	cv::imshow("imgface", limit_window_auto(imgface));
 
 
-	std::cout << "Hello World!\n";
+	double alignparam[6] = { 0 }, alignparam_inv[6] = { 0 };
+	getFullAffParamOpencv(faceland5, dstpts, alignparam, alignparam_inv);
+	cout << "1 " << cv::Mat(2, 3, CV_64F, alignparam) << endl;
+	cout << "2 " << cv::Mat(2, 3, CV_64F, alignparam_inv) << endl;
+
+	//getFullAffParamCustom( dstpts, faceland5,alignparam, alignparam_inv);
+	getFullAffParamCustom(faceland5, dstpts, alignparam, alignparam_inv);
+
+	cout << "c1 " << cv::Mat(2, 3, CV_64F, alignparam) << endl;
+	cout << "c2 " << cv::Mat(2, 3, CV_64F, alignparam_inv) << endl;
+	//getFullAffParamCustom(faceland5, dstpts, alignparam, alignparam_inv);
+
+
+	cv::Mat affineMatrix = cv::Mat(2, 3, CV_64F, alignparam);
+	cv::Mat cropedImage;
+	cv::warpAffine(imgface, cropedImage, affineMatrix, cv::Size(200, 200));
+
+
+
+
+	cv::imshow("cropedImage", limit_window_auto(cropedImage));
+
+	cv::waitKey(0);
+
 	//system("pause");
+
+}
+
+
+int main()
+{
+	std::cout << "Hello World!\n";
 }
 
