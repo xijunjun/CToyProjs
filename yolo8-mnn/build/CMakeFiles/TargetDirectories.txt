@@ -1,0 +1,3 @@
+D:/workspace/opensource/yolov8-mnn-main/yolov8-mnn-main/cpp/build/CMakeFiles/yolov8_demo.dir
+D:/workspace/opensource/yolov8-mnn-main/yolov8-mnn-main/cpp/build/CMakeFiles/edit_cache.dir
+D:/workspace/opensource/yolov8-mnn-main/yolov8-mnn-main/cpp/build/CMakeFiles/rebuild_cache.dir

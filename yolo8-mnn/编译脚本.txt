@@ -1,0 +1,4 @@
+来源：https://github.com/wangzhaode/yolov8-mnn
+
+cmake -G  "NMake Makefiles" .. 
+nmake

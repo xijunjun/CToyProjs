@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "D:/workspace/opensource/yolov8-mnn-main/yolov8-mnn-main/cpp/build/CMakeFiles/yolov8_demo.dir/embed.manifest"
